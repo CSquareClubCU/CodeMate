@@ -1,56 +1,70 @@
-# CodeMate 2.0
+# ♟️ CodeMate 2.0
 
-**Same Board. Different Game.** Chandigarh University · C Square Club
+> **Same Board. Different Game.** 
+> _Chandigarh University · C Square Club_
 
-A self-hostable full-stack competition platform: internal 1v1 chess, real Stockfish analysis, timed debugging MCQs, shared team points, power-ups, premium content and administrator controls. The supplied poster establishes the black, bronze, cream and red identity.
+CodeMate 2.0 is a self-hostable, full-stack competition platform combining **internal 1v1 chess** with **timed debugging MCQs**. Teams share points, use power-ups, unlock premium content, and compete on a live leaderboard. 
 
-## Quick start
+Designed with a sleek black, bronze, cream, and red identity.
 
-Requires Node.js **22.18+** (24 recommended) and npm.
+---
+
+## ✨ Features
+
+- **♟️ Integrated Chess Engine**: Internal matchmaking, real Stockfish analysis, complete history, and board recovery.
+- **💻 Coding & Debugging**: Timed MCQs, premium tracing exercises (C, C++, Java, Python, JS), and a local Monaco editor.
+- **🏆 Live Economy & Scoring**: Shared team points, net earned logic, quality penalties, and delayed leaderboard updates.
+- **🛒 Dynamic Shop**: Transactional shop with six consumable power-ups and premium question sets.
+- **🔒 Secure & Real-time**: bcrypt passwords, HTTP-only cookies, Socket.IO synchronization, and role locks.
+- **⚙️ Administrator Controls**: Comprehensive team, content, scoring, and settings management with CSV/JSON exports.
+
+---
+
+## 🚀 Quick Start
+
+Requires **Node.js 22.18+** (24 recommended) and npm.
 
 ```sh
+# 1. Install dependencies
 npm install
+
+# 2. Setup database and initial content
 npm run setup
+
+# 3. Start development servers
 npm run dev
 ```
 
-Open the exact FRONTEND_URL configured in .env (default http://localhost:5173). The API listens on port 3001.
+Open the exact `FRONTEND_URL` configured in `.env` (default: `http://localhost:5173`). The API listens on port `3001`.
 
-For one local server:
+### 🖥️ Running Locally (Single Server)
 
 ```sh
 npm run build
 npm run local
 ```
 
-Open **http://127.0.0.1:3001**. On Windows, after setup/build, double-click **Start-CodeMate.cmd**. The delivered working folder already contains dependencies and a build. The source ZIP excludes dependencies, databases and private credentials.
+Open **http://127.0.0.1:3001**.
+_Windows users: After setup and build, you can just double-click `Start-CodeMate.cmd`._
 
-First setup creates ten demo teams (TEAM-001 to TEAM-010), a random shared team password in **demo-credentials.txt**, and an **event-admin** account with a random password in **.data/admin-credentials.txt**. It also creates 20 standard questions, five individual premium questions, five 25-question sets, six power-ups and a legal Stockfish-evaluated sample match on a fresh installation.
+> **Note:** The first setup creates ten demo teams (`TEAM-001` to `TEAM-010`), a random shared team password in `demo-credentials.txt`, and an `event-admin` account in `.data/admin-credentials.txt`. It also seeds questions, power-ups, and a sample match.
 
-**Use separate browsers or browser profiles for the two participants.** Tabs in one profile share the session cookie. One team has exactly one Chess slot and one Debugging slot; a third active login is rejected.
+### 👥 Participant Guidelines
 
-Demo content is clearly development data. Replace/review questions before an actual event. Premium sample questions are parameterized advanced tracing exercises across C, C++, Java, Python and JavaScript.
+- **Use separate browsers or browser profiles** for the two participants. Tabs in one profile share the session cookie.
+- One team has exactly **one Chess slot** and **one Debugging slot**. A third active login is rejected.
+- Replace or review demo questions before an actual event. Demo content is clearly development data.
 
-## Included
+---
 
-- bcrypt passwords, HTTP-only cookies, CSRF/Origin checks, heartbeat expiry, role locks, force logout and reassignment.
-- Internal matchmaking, legal moves/captures/results, complete chess history and board recovery.
-- Configurable capture, move-quality and result scoring; real Stockfish workers, durable retries and farming/resignation guards.
-- Private MCQ answers, server deadlines, question snapshots and submission history.
-- Transactional shop, six consumable power-ups, individual premium questions and 25-question set ownership.
-- Private Socket.IO synchronization, ordered outbox, delayed Debugging leaderboard.
-- Poster-themed dashboard, chess board, local Monaco editor, shop, team statistics and administration.
-- Team/content/scoring/settings management, monitoring, audit logs and CSV/JSON exports.
+## 🏗️ Tech Stack
 
-## Economy
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, React Router, Lucide, react-chessboard, Monaco Editor.
+- **Backend**: Express (Node.js), Socket.IO, bcrypt.
+- **Database**: PostgreSQL (pg), PGlite (for embedded dev).
+- **Engine**: chess.js, Stockfish 17.1.
 
-Net earned = chess earned + debugging earned + administrator adjustments.
-Available balance = net earned − purchases + economy refunds.
-Leaderboard uses net earned before purchases. Quality penalties reduce earned score. Penalties/reversals may produce a negative balance; purchases cannot overspend. Equal ranks are ordered by Team ID.
-
-## Stack
-
-React 19, TypeScript, Vite, Tailwind CSS, React Router, Lucide, react-chessboard, chess.js, Monaco; Express/Node; PostgreSQL/pg; Socket.IO; bcrypt; Stockfish 17.1.
+### Directory Structure
 
 ```text
 frontend/src/          Interface, pages, hooks and API client
@@ -62,43 +76,53 @@ tests/                 API/domain/engine/socket/load/browser tests
 docs/                  Setup, architecture, deployment and evidence
 ```
 
-## Database and admin
+---
 
-An empty DATABASE_URL uses persistent embedded PostgreSQL (PGlite) in .data/postgres for development. Production requires standard PostgreSQL, including self-hosted PostgreSQL or Supabase. No paid APIs are required.
+## 🗄️ Database and Admin
+
+An empty `DATABASE_URL` uses persistent embedded PostgreSQL (PGlite) in `.data/postgres` for development. Production requires standard PostgreSQL (self-hosted or Supabase). No paid APIs are required.
 
 ```sh
 npm run migrate
 npm run create-admin
 ```
 
-Admin creation accepts ADMIN_USERNAME / ADMIN_PASSWORD from the environment, or prompts for a username and generates a password into a private local file. No hardcoded production password exists.
+> Admin creation accepts `ADMIN_USERNAME` and `ADMIN_PASSWORD` from the environment, or prompts for a username and generates a password into a private local file. No hardcoded production passwords exist.
 
-## Verification
+---
+
+## 🧪 Verification & Testing
 
 ```sh
-npm test
-npm run build
-npm run test:e2e
-npm run test:load
+npm test           # Run all unit tests
+npm run build      # Build for production before e2e/load testing
+npm run test:e2e   # Run end-to-end browser tests
+npm run test:load  # Run stress and load tests
 ```
 
-Browser tests use installed Chrome/Edge on Windows or Playwright Chromium. Otherwise run npx playwright install chromium. Tests use isolated databases and accounts.
+- Browser tests use installed Chrome/Edge on Windows or Playwright Chromium (`npx playwright install chromium`).
+- Tests use isolated databases and accounts.
 
-The completed local stress run used 200 sockets / 100 teams, 50 concurrent 1v1 games and 150 real Stockfish analyses. All 100 concurrent 500 + 100 − 80 balances were 520, with no duplicate transactions or ledger mismatches. This is local functional evidence, not hosted capacity certification.
+---
 
-## Deployment
+## 🌐 Deployment
 
-Docker, Compose, Render and Vercel configuration are included. The simplest deployment serves UI/API from one Node server behind HTTPS. Production requires your database URL, session secret, domain/TLS and host. No deployment or GitHub push was performed.
+Docker, Compose, Render, and Vercel configurations are included. The simplest deployment serves the UI/API from one Node server behind HTTPS. Production requires your database URL, session secret, domain/TLS, and host.
 
-Read [Setup](docs/SETUP.md), [Architecture](docs/ARCHITECTURE.md), [Database](docs/DATABASE.md), [API](docs/API.md), [Security](docs/SECURITY.md), [Deployment](docs/DEPLOYMENT.md), [Coverage](docs/REQUIREMENTS.md) and [Validation](docs/VALIDATION.md).
+### Documentation Reference
 
-## Troubleshooting
+For detailed guides, please read:
+[Setup](docs/SETUP.md) | [Architecture](docs/ARCHITECTURE.md) | [Database](docs/DATABASE.md) | [API](docs/API.md) | [Security](docs/SECURITY.md) | [Deployment](docs/DEPLOYMENT.md) | [Coverage](docs/REQUIREMENTS.md) | [Validation](docs/VALIDATION.md)
 
-- Login: check credentials, role and active sessions; use separate browser profiles.
-- Origin error: localhost and 127.0.0.1 are distinct; use the configured origin.
-- Pending engine: check monitoring and Retry analysis. Scores are never guessed.
-- Cannot end: resolve pending analysis; resume first if paused.
-- Database locked/port occupied: stop the previous local server.
-- Restricted Windows development tools: use npm run build then npm run local.
+---
 
-Private .env, .data and credential files are excluded from Git. The poster is supplied artwork; its historical event date is not the current round configuration.
+## 🔧 Troubleshooting
+
+- **Login Issues**: Check credentials, roles, and active sessions. Remember to use separate browser profiles.
+- **Origin Error**: `localhost` and `127.0.0.1` are distinct; use the configured origin.
+- **Pending Engine**: Check monitoring and Retry analysis. Scores are never guessed.
+- **Cannot End Match**: Resolve pending analysis; resume first if paused.
+- **Database Locked/Port Occupied**: Stop any previously running local server.
+- **Restricted Windows Dev Tools**: Run `npm run build` then `npm run local`.
+
+_Private `.env`, `.data`, and credential files are excluded from Git._
